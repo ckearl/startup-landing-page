@@ -25,62 +25,62 @@ function LoadingIndicator() {
 }
 
 function Header() {
-  return (
-    <header
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        padding: "10px",
-        backgroundColor: "rgba(225, 225, 225, 0.5)",
-        color: "white",
-        zIndex: 100,
-        display: "flex",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        gap: "32px",
-      }}
-    >
-      <h1>React Three Fiber 3D Text</h1>
-      <a
-        href="https://codesandbox.io/s/react-three-fiber-3d-text-7w1q4"
-        target="_blank"
-        rel="noreferrer"
-        style={{
-          color: "white",
-          textDecoration: "none",
-          transition: "all"
-        }}
-      >
-        Open the Editor
-      </a>
-      <a
-        href="https://codesandbox.io/s/react-three-fiber-3d-text-7w1q4"
-        target="_blank"
-        rel="noreferrer"
-        style={{
-          color: "white",
-          textDecoration: "none",
-          transition: "all"
-        }}
-      >
-        Learn More
-      </a>
-      <a
-        href="https://codesandbox.io/s/react-three-fiber-3d-text-7w1q4"
-        target="_blank"
-        rel="noreferrer"
-        style={{
-          color: "white",
-          textDecoration: "none",
-          transition: "all"
-        }}
-      >
-        Our History
-      </a>
-    </header>
-  );
+	return (
+		<header
+			style={{
+				position: "absolute",
+				top: 0,
+				left: 0,
+				width: "100vw",
+				padding: "10px",
+				backgroundColor: "rgba(225, 225, 225, 0.5)",
+				color: "white",
+				zIndex: 100,
+				display: "flex",
+				justifyContent: "flex-start",
+				alignItems: "center",
+				gap: "32px",
+			}}
+		>
+			<h1>3D Forge</h1>
+			<a
+				href="https://codesandbox.io/s/react-three-fiber-3d-text-7w1q4"
+				target="_blank"
+				rel="noreferrer"
+				style={{
+					color: "white",
+					textDecoration: "none",
+					transition: "all",
+				}}
+			>
+				Open the Editor
+			</a>
+			<a
+				href="https://codesandbox.io/s/react-three-fiber-3d-text-7w1q4"
+				target="_blank"
+				rel="noreferrer"
+				style={{
+					color: "white",
+					textDecoration: "none",
+					transition: "all",
+				}}
+			>
+				Learn More
+			</a>
+			<a
+				href="https://codesandbox.io/s/react-three-fiber-3d-text-7w1q4"
+				target="_blank"
+				rel="noreferrer"
+				style={{
+					color: "white",
+					textDecoration: "none",
+					transition: "all",
+				}}
+			>
+				Our History
+			</a>
+		</header>
+	);
 }
 
 function Hero({ text }) {
@@ -118,49 +118,52 @@ function InputForm({ onTextSubmit }) {
 	};
 
 	return (
-		<form
-			onSubmit={handleSubmit}
-			style={{
-				position: "absolute",
-				left: "10px",
-				top: "50%",
-				transform: "translateY(-50%)",
-				width: "calc(33% - 20px)",
-				padding: "20px",
-				backgroundColor: "rgba(255, 255, 255, 0.1)",
-				borderRadius: "10px",
-			}}
-		>
-			<input
-				type="text"
-				value={inputText}
-				onChange={(e) => setInputText(e.target.value)}
-				placeholder="Enter up to 5 words"
+		<React.Fragment>
+			<div
 				style={{
-					width: "100%",
-					padding: "10px",
-					marginBottom: "10px",
-					backgroundColor: "rgba(255, 255, 255, 0.2)",
-					color: "white",
-					border: "none",
-					borderRadius: "5px",
-				}}
-			/>
-			<button
-				type="submit"
-				style={{
-					width: "100%",
-					padding: "10px",
-					backgroundColor: "rgba(255, 255, 255, 0.3)",
-					color: "white",
-					border: "none",
-					borderRadius: "5px",
-					cursor: "pointer",
+					position: "absolute",
+					left: "10px",
+					top: "50%",
+					transform: "translateY(-50%)",
+					width: "calc(33% - 20px)",
+					padding: "20px",
+					backgroundColor: "rgba(255, 255, 255, 0.1)",
+					borderRadius: "10px",
 				}}
 			>
-				Update Text
-			</button>
-		</form>
+				<form onSubmit={handleSubmit}>
+					<input
+						type="text"
+						value={inputText}
+						onChange={(e) => setInputText(e.target.value)}
+						placeholder="Enter up to 5 words"
+						style={{
+							width: "100%",
+							padding: "10px",
+							marginBottom: "10px",
+							backgroundColor: "rgba(255, 255, 255, 0.2)",
+							color: "white",
+							border: "none",
+							borderRadius: "5px",
+						}}
+					/>
+					<button
+						type="submit"
+						style={{
+							width: "100%",
+							padding: "10px",
+							backgroundColor: "rgba(255, 255, 255, 0.3)",
+							color: "white",
+							border: "none",
+							borderRadius: "5px",
+							cursor: "pointer",
+						}}
+					>
+						Update Text
+					</button>
+				</form>
+			</div>
+		</React.Fragment>
 	);
 }
 
@@ -169,7 +172,7 @@ export default function App() {
 
 	return (
 		<React.Fragment>
-      <Header />
+			<Header />
 			<div
 				className="scene"
 				style={{
