@@ -24,6 +24,65 @@ function LoadingIndicator() {
 	);
 }
 
+function Header() {
+  return (
+    <header
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        padding: "10px",
+        backgroundColor: "rgba(225, 225, 225, 0.5)",
+        color: "white",
+        zIndex: 100,
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        gap: "32px",
+      }}
+    >
+      <h1>React Three Fiber 3D Text</h1>
+      <a
+        href="https://codesandbox.io/s/react-three-fiber-3d-text-7w1q4"
+        target="_blank"
+        rel="noreferrer"
+        style={{
+          color: "white",
+          textDecoration: "none",
+          transition: "all"
+        }}
+      >
+        Open the Editor
+      </a>
+      <a
+        href="https://codesandbox.io/s/react-three-fiber-3d-text-7w1q4"
+        target="_blank"
+        rel="noreferrer"
+        style={{
+          color: "white",
+          textDecoration: "none",
+          transition: "all"
+        }}
+      >
+        Learn More
+      </a>
+      <a
+        href="https://codesandbox.io/s/react-three-fiber-3d-text-7w1q4"
+        target="_blank"
+        rel="noreferrer"
+        style={{
+          color: "white",
+          textDecoration: "none",
+          transition: "all"
+        }}
+      >
+        Our History
+      </a>
+    </header>
+  );
+}
+
 function Hero({ text }) {
 	const [matcapTexture] = useMatcapTexture("CB4E88_F99AD6_F384C3_ED75B9");
 	const ref = useRef();
@@ -110,6 +169,7 @@ export default function App() {
 
 	return (
 		<React.Fragment>
+      <Header />
 			<div
 				className="scene"
 				style={{
