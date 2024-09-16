@@ -1,4 +1,4 @@
-import React, { useRef, Suspense } from "react";
+import React, { useState, useRef, Suspense } from "react";
 import {
 	Text3D,
 	OrbitControls,
@@ -24,7 +24,7 @@ function LoadingIndicator() {
 	);
 }
 
-function Hero() {
+function Hero({ text }) {
 	const [matcapTexture] = useMatcapTexture("CB4E88_F99AD6_F384C3_ED75B9");
 	const ref = useRef();
 	const { width: w, height: h } = useThree((state) => state.viewport);
@@ -36,11 +36,11 @@ function Hero() {
 					position={[0, 0, 0]}
 					ref={ref}
 					font="https://threejs.org/examples/fonts/helvetiker_regular.typeface.json"
-					size={w / 15}
+					size={w / 20}
 					height={0.2}
 					curveSegments={12}
 				>
-					{`Any\ntext`}
+					{text}
 					<meshMatcapMaterial matcap={matcapTexture} />
 				</Text3D>
 			</Float>
@@ -48,50 +48,104 @@ function Hero() {
 	);
 }
 
-class ErrorBoundary extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { hasError: false };
-	}
+function InputForm({ onTextSubmit }) {
+	const [inputText, setInputText] = useState("");
 
-	static getDerivedStateFromError(error) {
-		return { hasError: true };
-	}
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const words = inputText.split(" ").slice(0, 5);
+		onTextSubmit(words.join("\n"));
+		setInputText("");
+	};
 
-	componentDidCatch(error, errorInfo) {
-		console.log("Error caught by boundary:", error, errorInfo);
-	}
-
-	render() {
-		if (this.state.hasError) {
-			return <h1>Something went wrong.</h1>;
-		}
-
-		return this.props.children;
-	}
+	return (
+		<form
+			onSubmit={handleSubmit}
+			style={{
+				position: "absolute",
+				left: "10px",
+				top: "50%",
+				transform: "translateY(-50%)",
+				width: "calc(33% - 20px)",
+				padding: "20px",
+				backgroundColor: "rgba(255, 255, 255, 0.1)",
+				borderRadius: "10px",
+			}}
+		>
+			<input
+				type="text"
+				value={inputText}
+				onChange={(e) => setInputText(e.target.value)}
+				placeholder="Enter up to 5 words"
+				style={{
+					width: "100%",
+					padding: "10px",
+					marginBottom: "10px",
+					backgroundColor: "rgba(255, 255, 255, 0.2)",
+					color: "white",
+					border: "none",
+					borderRadius: "5px",
+				}}
+			/>
+			<button
+				type="submit"
+				style={{
+					width: "100%",
+					padding: "10px",
+					backgroundColor: "rgba(255, 255, 255, 0.3)",
+					color: "white",
+					border: "none",
+					borderRadius: "5px",
+					cursor: "pointer",
+				}}
+			>
+				Update Text
+			</button>
+		</form>
+	);
 }
 
 export default function App() {
+	const [displayText, setDisplayText] = useState("Enter\nYour\nText");
+
 	return (
-		<div className="scene" style={{ width: "100vw", height: "100vh" }}>
-			<ErrorBoundary>
-				<Canvas camera={{ position: [0, 0, 10], fov: 60 }}>
-					<OrbitControls enableZoom={true} enablePan={true} />
-					<Suspense fallback={<LoadingIndicator />}>
-						<Stars
-							radius={100}
-							depth={50}
-							count={1000}
-							factor={4}
-							saturation={0}
-							fade
-						/>
-						<Sparkles count={100} size={1} scale={10} color="#fff3b0" />
-						<Hero />
-					</Suspense>
-					<ambientLight intensity={0.6} />
-				</Canvas>
-			</ErrorBoundary>
-		</div>
+		<React.Fragment>
+			<div
+				className="scene"
+				style={{
+					width: "100vw",
+					height: "100vh",
+					position: "relative",
+					backgroundColor: "#000",
+				}}
+			>
+				<InputForm onTextSubmit={setDisplayText} />
+				<div
+					style={{
+						position: "absolute",
+						right: 0,
+						width: "66%",
+						height: "100%",
+					}}
+				>
+					<Canvas camera={{ position: [0, 0, 10], fov: 60 }}>
+						<OrbitControls enableZoom={true} enablePan={true} />
+						<Suspense fallback={<LoadingIndicator />}>
+							<Stars
+								radius={100}
+								depth={50}
+								count={1000}
+								factor={4}
+								saturation={0}
+								fade
+							/>
+							<Sparkles count={100} size={1} scale={10} color="#fff3b0" />
+							<Hero text={displayText} />
+						</Suspense>
+						<ambientLight intensity={0.6} />
+					</Canvas>
+				</div>
+			</div>
+		</React.Fragment>
 	);
 }
