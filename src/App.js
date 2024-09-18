@@ -91,10 +91,10 @@ function Hero({ text, color }) {
 		<Center>
 			<Float speed={1}>
 				<Text3D
-					position={[4, -2, 0]}
+					position={[10, -2, 0]}
 					ref={ref}
 					font="https://threejs.org/examples/fonts/helvetiker_regular.typeface.json"
-					size={w / 20}
+					size={w / 25}
 					height={0.2}
 					curveSegments={12}
 				>
@@ -107,7 +107,7 @@ function Hero({ text, color }) {
 }
 
 export default function App() {
-	const [displayText, setDisplayText] = useState(`Enter\nsome\ntext.`);
+	const [displayText, setDisplayText] = useState(`Welcome to\n3D Forge.`);
 	const [inputText, setInputText] = useState("");
 	const [isAnimating, setIsAnimating] = useState(true);
   const [textColor, setTextColor] = useState("#CB4E88");
@@ -117,7 +117,7 @@ export default function App() {
 
 		const interval = setInterval(() => {
 			setDisplayText((prevText) => {
-				if (prevText === `Enter\nsome\ntext...`) return `Enter\nsome\ntext.`;
+				if (prevText === `Welcome to\n3D Forge...`) return `Welcome to\n3D Forge.`;
 				return prevText + ".";
 			});
 		}, 500);
