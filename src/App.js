@@ -6,7 +6,6 @@ import {
 	Stars,
 	Float,
 	Sparkles,
-	useMatcapTexture,
 } from "@react-three/drei";
 import { Canvas, useThree, useFrame } from "@react-three/fiber";
 
@@ -26,32 +25,13 @@ function LoadingIndicator() {
 
 function Header() {
 	return (
-		<header
-			style={{
-				position: "absolute",
-				top: 0,
-				left: 0,
-				width: "100vw",
-				padding: "10px",
-				backgroundColor: "rgba(225, 225, 225, 0.5)",
-				color: "white",
-				zIndex: 100,
-				display: "flex",
-				justifyContent: "flex-start",
-				alignItems: "center",
-				gap: "32px",
-			}}
-		>
-			<h1>3D Forge</h1>
+		<header className="absolute top-0 left-0 w-full p-2.5 bg-white bg-opacity-50 text-white z-50 flex justify-start items-center gap-8">
+			<h1 className="text-2xl font-bold">3D Forge</h1>
 			<a
 				href="https://codesandbox.io/s/react-three-fiber-3d-text-7w1q4"
 				target="_blank"
 				rel="noreferrer"
-				style={{
-					color: "white",
-					textDecoration: "none",
-					transition: "all",
-				}}
+				className="text-white no-underline transition-all hover:text-gray-200"
 			>
 				Open the Editor
 			</a>
@@ -59,11 +39,7 @@ function Header() {
 				href="https://codesandbox.io/s/react-three-fiber-3d-text-7w1q4"
 				target="_blank"
 				rel="noreferrer"
-				style={{
-					color: "white",
-					textDecoration: "none",
-					transition: "all",
-				}}
+				className="text-white no-underline transition-all hover:text-gray-200"
 			>
 				Learn More
 			</a>
@@ -71,11 +47,7 @@ function Header() {
 				href="https://codesandbox.io/s/react-three-fiber-3d-text-7w1q4"
 				target="_blank"
 				rel="noreferrer"
-				style={{
-					color: "white",
-					textDecoration: "none",
-					transition: "all",
-				}}
+				className="text-white no-underline transition-all hover:text-gray-200"
 			>
 				Our History
 			</a>
@@ -91,10 +63,10 @@ function Hero({ text, color }) {
 		<Center>
 			<Float speed={1}>
 				<Text3D
-					position={[10, -2, 0]}
+					position={[15, -2, 0]}
 					ref={ref}
 					font="https://threejs.org/examples/fonts/helvetiker_regular.typeface.json"
-					size={w / 25}
+					size={w / 30}
 					height={0.2}
 					curveSegments={12}
 				>
@@ -110,7 +82,7 @@ export default function App() {
 	const [displayText, setDisplayText] = useState(`Welcome to\n3D Forge.`);
 	const [inputText, setInputText] = useState("");
 	const [isAnimating, setIsAnimating] = useState(true);
-  const [textColor, setTextColor] = useState("#CB4E88");
+	const [textColor, setTextColor] = useState("#CB4E88");
 
 	useEffect(() => {
 		if (!isAnimating) return;
@@ -136,74 +108,38 @@ export default function App() {
 	return (
 		<React.Fragment>
 			<Header />
-			<div
-				className="scene"
-				style={{
-					width: "100vw",
-					height: "100vh",
-					position: "relative",
-					backgroundColor: "#000",
-				}}
-			>
-				<div
-					style={{
-						position: "absolute",
-						left: "10px",
-						top: "50%",
-						transform: "translateY(-50%)",
-						width: "calc(33% - 20px)",
-						padding: "20px",
-						backgroundColor: "rgba(255, 255, 255, 0.1)",
-						borderRadius: "10px",
-						zIndex: 100,
-					}}
-				>
-					<form onSubmit={handleSubmit}>
+			<div className="w-screen h-screen relative bg-black">
+				<div className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-1/3 p-5 bg-white bg-opacity-10 rounded-lg z-50 flex flex-col justify-between">
+					<div className="space-y-2.5 h-24">
+						<h2 className="text-white text-2xl font-bold">3D Forge</h2>
+						<p className="text-white text-sm mt-2">
+							Create 3D models online. For free, forever. Try out the 3D text
+							editor below.
+						</p>
+					</div>
+					<form onSubmit={handleSubmit} className="space-y-2.5">
 						<input
 							type="text"
 							value={inputText}
 							onChange={(e) => setInputText(e.target.value)}
 							placeholder="Enter up to 5 words"
-							style={{
-								width: "100%",
-								padding: "10px",
-								marginBottom: "10px",
-								backgroundColor: "rgba(255, 255, 255, 0.2)",
-								color: "white",
-								border: "none",
-								borderRadius: "5px",
-							}}
+							className="w-full p-2.5 bg-white bg-opacity-20 text-white border-none rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 						/>
 						<input
 							type="color"
 							value={textColor}
 							onChange={(e) => setTextColor(e.target.value)}
-							className="w-full h-10 mt-2"
+							className="w-full h-10"
 						/>
 						<button
 							type="submit"
-							style={{
-								width: "100%",
-								padding: "10px",
-								backgroundColor: "rgba(255, 255, 255, 0.3)",
-								color: "white",
-								border: "none",
-								borderRadius: "5px",
-								cursor: "pointer",
-							}}
+							className="w-full p-2.5 bg-white bg-opacity-30 text-white border-none rounded-md cursor-pointer hover:bg-opacity-40 transition-all"
 						>
 							Update Text
 						</button>
 					</form>
 				</div>
-				<div
-					style={{
-						position: "absolute",
-						right: 0,
-						width: "100%",
-						height: "100%",
-					}}
-				>
+				<div className="absolute right-0 w-full h-full">
 					<Canvas camera={{ position: [0, 0, 10], fov: 60 }}>
 						<OrbitControls enableZoom={true} enablePan={true} />
 						<Suspense fallback={<LoadingIndicator />}>
