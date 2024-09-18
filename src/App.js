@@ -1,4 +1,4 @@
-import React, { useState, useRef, Suspense } from "react";
+import React, { useState, useRef, Suspense, useEffect } from "react";
 import {
 	Text3D,
 	OrbitControls,
@@ -83,16 +83,15 @@ function Header() {
 	);
 }
 
-function Hero({ text }) {
-	const [matcapTexture] = useMatcapTexture("CB4E88_F99AD6_F384C3_ED75B9");
+function Hero({ text, color }) {
 	const ref = useRef();
-	const { width: w, height: h } = useThree((state) => state.viewport);
+	const { width: w } = useThree((state) => state.viewport);
 
 	return (
 		<Center>
 			<Float speed={1}>
 				<Text3D
-					position={[0, 0, 0]}
+					position={[4, -2, 0]}
 					ref={ref}
 					font="https://threejs.org/examples/fonts/helvetiker_regular.typeface.json"
 					size={w / 20}
@@ -100,75 +99,39 @@ function Hero({ text }) {
 					curveSegments={12}
 				>
 					{text}
-					<meshMatcapMaterial matcap={matcapTexture} />
+					<meshStandardMaterial color={color} />
 				</Text3D>
 			</Float>
 		</Center>
 	);
 }
 
-function InputForm({ onTextSubmit }) {
+export default function App() {
+	const [displayText, setDisplayText] = useState(`Enter\nsome\ntext.`);
 	const [inputText, setInputText] = useState("");
+	const [isAnimating, setIsAnimating] = useState(true);
+  const [textColor, setTextColor] = useState("#CB4E88");
+
+	useEffect(() => {
+		if (!isAnimating) return;
+
+		const interval = setInterval(() => {
+			setDisplayText((prevText) => {
+				if (prevText === `Enter\nsome\ntext...`) return `Enter\nsome\ntext.`;
+				return prevText + ".";
+			});
+		}, 500);
+
+		return () => clearInterval(interval);
+	}, [isAnimating]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const words = inputText.split(" ").slice(0, 5);
-		onTextSubmit(words.join("\n"));
+		setDisplayText(words.join("\n"));
 		setInputText("");
+		setIsAnimating(false);
 	};
-
-	return (
-		<React.Fragment>
-			<div
-				style={{
-					position: "absolute",
-					left: "10px",
-					top: "50%",
-					transform: "translateY(-50%)",
-					width: "calc(33% - 20px)",
-					padding: "20px",
-					backgroundColor: "rgba(255, 255, 255, 0.1)",
-					borderRadius: "10px",
-				}}
-			>
-				<form onSubmit={handleSubmit}>
-					<input
-						type="text"
-						value={inputText}
-						onChange={(e) => setInputText(e.target.value)}
-						placeholder="Enter up to 5 words"
-						style={{
-							width: "100%",
-							padding: "10px",
-							marginBottom: "10px",
-							backgroundColor: "rgba(255, 255, 255, 0.2)",
-							color: "white",
-							border: "none",
-							borderRadius: "5px",
-						}}
-					/>
-					<button
-						type="submit"
-						style={{
-							width: "100%",
-							padding: "10px",
-							backgroundColor: "rgba(255, 255, 255, 0.3)",
-							color: "white",
-							border: "none",
-							borderRadius: "5px",
-							cursor: "pointer",
-						}}
-					>
-						Update Text
-					</button>
-				</form>
-			</div>
-		</React.Fragment>
-	);
-}
-
-export default function App() {
-	const [displayText, setDisplayText] = useState("Enter\nYour\nText");
 
 	return (
 		<React.Fragment>
@@ -182,12 +145,62 @@ export default function App() {
 					backgroundColor: "#000",
 				}}
 			>
-				<InputForm onTextSubmit={setDisplayText} />
+				<div
+					style={{
+						position: "absolute",
+						left: "10px",
+						top: "50%",
+						transform: "translateY(-50%)",
+						width: "calc(33% - 20px)",
+						padding: "20px",
+						backgroundColor: "rgba(255, 255, 255, 0.1)",
+						borderRadius: "10px",
+						zIndex: 100,
+					}}
+				>
+					<form onSubmit={handleSubmit}>
+						<input
+							type="text"
+							value={inputText}
+							onChange={(e) => setInputText(e.target.value)}
+							placeholder="Enter up to 5 words"
+							style={{
+								width: "100%",
+								padding: "10px",
+								marginBottom: "10px",
+								backgroundColor: "rgba(255, 255, 255, 0.2)",
+								color: "white",
+								border: "none",
+								borderRadius: "5px",
+							}}
+						/>
+						<input
+							type="color"
+							value={textColor}
+							onChange={(e) => setTextColor(e.target.value)}
+							className="w-full h-10 mt-2"
+						/>
+						<button
+							type="submit"
+							style={{
+								width: "100%",
+								padding: "10px",
+								backgroundColor: "rgba(255, 255, 255, 0.3)",
+								color: "white",
+								border: "none",
+								borderRadius: "5px",
+								cursor: "pointer",
+							}}
+						>
+							Update Text
+						</button>
+					</form>
+				</div>
 				<div
 					style={{
 						position: "absolute",
 						right: 0,
-						width: "66%",
+						width: "100%",
 						height: "100%",
 					}}
 				>
@@ -203,9 +216,9 @@ export default function App() {
 								fade
 							/>
 							<Sparkles count={100} size={1} scale={10} color="#fff3b0" />
-							<Hero text={displayText} />
+							<Hero text={displayText} color={textColor} />
 						</Suspense>
-						<ambientLight intensity={0.6} />
+						<ambientLight intensity={0.8} />
 					</Canvas>
 				</div>
 			</div>
