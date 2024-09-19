@@ -55,7 +55,7 @@ function Header() {
 	);
 }
 
-function Hero({ text, color }) {
+function Hero({ text, color, fontFamily }) {
 	const ref = useRef();
 	const { width: w } = useThree((state) => state.viewport);
 
@@ -65,7 +65,7 @@ function Hero({ text, color }) {
 				<Text3D
 					position={[15, -2, 0]}
 					ref={ref}
-					font="https://threejs.org/examples/fonts/helvetiker_regular.typeface.json"
+					font={`https://threejs.org/examples/fonts/${fontFamily}.typeface.json`}
 					size={w / 30}
 					height={0.2}
 					curveSegments={12}
@@ -83,13 +83,15 @@ export default function App() {
 	const [inputText, setInputText] = useState("");
 	const [isAnimating, setIsAnimating] = useState(true);
 	const [textColor, setTextColor] = useState("#CB4E88");
+	const [fontFamily, setFontFamily] = useState("helvetiker_regular");
 
 	useEffect(() => {
 		if (!isAnimating) return;
 
 		const interval = setInterval(() => {
 			setDisplayText((prevText) => {
-				if (prevText === `Welcome to\n3D Forge...`) return `Welcome to\n3D Forge.`;
+				if (prevText === `Welcome to\n3D Forge...`)
+					return `Welcome to\n3D Forge.`;
 				return prevText + ".";
 			});
 		}, 500);
@@ -125,12 +127,19 @@ export default function App() {
 							placeholder="Enter up to 5 words"
 							className="w-full p-2.5 bg-white bg-opacity-20 text-white border-none rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 						/>
-						<input
-							type="color"
-							value={textColor}
-							onChange={(e) => setTextColor(e.target.value)}
-							className="w-full h-10"
-						/>
+						<div className="flex flex-row justify-around">
+							<input
+								type="color"
+								value={textColor}
+								onChange={(e) => setTextColor(e.target.value)}
+								className="w-25 h-10"
+							/>
+							<select className="w-25 h-10" onChange={(e) => setFontFamily(e.target.value)}>
+								<option value="helvetiker_regular">Helvetiker</option>
+								<option value="optimer_bold">Optimer</option>
+								<option value="gentilis_regular">Gentilis</option>
+							</select>
+						</div>
 						<button
 							type="submit"
 							className="w-full p-2.5 bg-white bg-opacity-30 text-white border-none rounded-md cursor-pointer hover:bg-opacity-40 transition-all"
@@ -152,7 +161,7 @@ export default function App() {
 								fade
 							/>
 							<Sparkles count={100} size={1} scale={10} color="#fff3b0" />
-							<Hero text={displayText} color={textColor} />
+							<Hero text={displayText} color={textColor} fontFamily={fontFamily} />
 						</Suspense>
 						<ambientLight intensity={0.8} />
 					</Canvas>
