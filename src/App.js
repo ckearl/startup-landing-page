@@ -132,9 +132,12 @@ export default function App() {
 								type="color"
 								value={textColor}
 								onChange={(e) => setTextColor(e.target.value)}
-								className="w-25 h-10"
+								className="w-25 h-10 p-2.5 bg-white bg-opacity-20 text-white border-none rounded-md"
 							/>
-							<select className="w-25 h-10" onChange={(e) => setFontFamily(e.target.value)}>
+							<select
+								className="w-25 h-10 p-2.5 bg-white bg-opacity-20 text-white border-none rounded-md"
+								onChange={(e) => setFontFamily(e.target.value)}
+							>
 								<option value="helvetiker_regular">Helvetiker</option>
 								<option value="optimer_bold">Optimer</option>
 								<option value="gentilis_regular">Gentilis</option>
@@ -161,7 +164,11 @@ export default function App() {
 								fade
 							/>
 							<Sparkles count={100} size={1} scale={10} color="#fff3b0" />
-							<Hero text={displayText} color={textColor} fontFamily={fontFamily} />
+							<Hero
+								text={displayText}
+								color={textColor}
+								fontFamily={fontFamily}
+							/>
 						</Suspense>
 						<ambientLight intensity={0.8} />
 					</Canvas>
