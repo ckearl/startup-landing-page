@@ -159,7 +159,7 @@ export default function App() {
 								radius={100}
 								depth={50}
 								count={1000}
-								factor={4}
+								factor={6}
 								saturation={0}
 								fade
 							/>
